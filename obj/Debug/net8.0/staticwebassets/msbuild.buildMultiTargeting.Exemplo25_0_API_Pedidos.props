@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\Exemplo25_0_API_Pedidos.props" />
+</Project>
