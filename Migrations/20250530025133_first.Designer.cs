@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Guren.Migrations
 {
     [DbContext(typeof(PedidosDbContext))]
-    [Migration("20250529000312_first")]
+    [Migration("20250530025133_first")]
     partial class first
     {
         /// <inheritdoc />
@@ -65,6 +65,9 @@ namespace Guren.Migrations
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(65,30)");
 
+                    b.Property<string>("SeasonalCampaignId")
+                        .HasColumnType("varchar(255)");
+
                     b.Property<string>("ShopId")
                         .IsRequired()
                         .HasColumnType("varchar(255)");
@@ -73,9 +76,41 @@ namespace Guren.Migrations
 
                     b.HasIndex("OrderId");
 
+                    b.HasIndex("SeasonalCampaignId");
+
                     b.HasIndex("ShopId");
 
                     b.ToTable("Products");
+                });
+
+            modelBuilder.Entity("Guren.Model.SeasonalCampaign", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<string>("CampaignName")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<DateTime>("EndDate")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("ShopId")
+                        .IsRequired()
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("datetime(6)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ShopId");
+
+                    b.ToTable("SeasonalCampaigns");
                 });
 
             modelBuilder.Entity("Guren.Model.Shop", b =>
@@ -135,6 +170,10 @@ namespace Guren.Migrations
                         .WithMany("Products")
                         .HasForeignKey("OrderId");
 
+                    b.HasOne("Guren.Model.SeasonalCampaign", null)
+                        .WithMany("Products")
+                        .HasForeignKey("SeasonalCampaignId");
+
                     b.HasOne("Guren.Model.Shop", "Shop")
                         .WithMany("Products")
                         .HasForeignKey("ShopId")
@@ -144,7 +183,23 @@ namespace Guren.Migrations
                     b.Navigation("Shop");
                 });
 
+            modelBuilder.Entity("Guren.Model.SeasonalCampaign", b =>
+                {
+                    b.HasOne("Guren.Model.Shop", "Shop")
+                        .WithMany()
+                        .HasForeignKey("ShopId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Shop");
+                });
+
             modelBuilder.Entity("Guren.Model.Order", b =>
+                {
+                    b.Navigation("Products");
+                });
+
+            modelBuilder.Entity("Guren.Model.SeasonalCampaign", b =>
                 {
                     b.Navigation("Products");
                 });

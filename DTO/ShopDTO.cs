@@ -9,7 +9,6 @@
             Name = name;
         }
 
-        // Construtor sem parâmetros para deserialização
         public ShopDTO() { }
     }
     public class ShopDTOOutput

@@ -239,10 +239,11 @@ C:\Users\ealve\OneDrive\Documentos\guren_api\obj\Debug\net8.0\staticwebassets\ms
 C:\Users\ealve\OneDrive\Documentos\guren_api\obj\Debug\net8.0\staticwebassets\msbuild.buildMultiTargeting.Guren.props
 C:\Users\ealve\OneDrive\Documentos\guren_api\obj\Debug\net8.0\staticwebassets\msbuild.buildTransitive.Guren.props
 C:\Users\ealve\OneDrive\Documentos\guren_api\obj\Debug\net8.0\staticwebassets.pack.json
-C:\Users\ealve\OneDrive\Documentos\guren_api\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
 C:\Users\ealve\OneDrive\Documentos\guren_api\obj\Debug\net8.0\Guren.csproj.Up2Date
 C:\Users\ealve\OneDrive\Documentos\guren_api\obj\Debug\net8.0\Guren.dll
 C:\Users\ealve\OneDrive\Documentos\guren_api\obj\Debug\net8.0\refint\Guren.dll
 C:\Users\ealve\OneDrive\Documentos\guren_api\obj\Debug\net8.0\Guren.pdb
 C:\Users\ealve\OneDrive\Documentos\guren_api\obj\Debug\net8.0\Guren.genruntimeconfig.cache
 C:\Users\ealve\OneDrive\Documentos\guren_api\obj\Debug\net8.0\ref\Guren.dll
+C:\Users\ealve\OneDrive\Documentos\guren_api\obj\Debug\net8.0\Guren.sourcelink.json
+C:\Users\ealve\OneDrive\Documentos\guren_api\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt

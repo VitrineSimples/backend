@@ -48,7 +48,6 @@ namespace Guren.Controllers
         [HttpPost]
         public ActionResult<Product> CreateProduct(ProductDTO newProductDTO)
         {
-            // Find the shop by ShopId
             Shop? shop = dbContext.Shops.FirstOrDefault(s => s.Id == newProductDTO.ShopId);
             if (shop == null)
             {
