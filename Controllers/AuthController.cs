@@ -34,7 +34,7 @@ namespace Guren.Controllers
                     new Claim(ClaimTypes.Email, user.Email),
                     new Claim("id", user.Id.ToString()),
                 }),
-                Expires = DateTime.UtcNow.AddHours(1),
+                Expires = DateTime.UtcNow.AddDays(7),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
             var token = tokenHandler.CreateToken(tokenDescriptor);
@@ -58,7 +58,15 @@ namespace Guren.Controllers
                 throw new UnauthorizedAccessException();
             }
 
-            return user;
+            var userDto = new MeDTO
+            {
+                Id = user.Id,
+                Name = user.Name,
+                Email = user.Email,
+                CPF = user.CPF
+            };
+
+            return Ok(userDto);
         }
 
         [AllowAnonymous]
@@ -76,7 +84,7 @@ namespace Guren.Controllers
                 return NotFound();
             }
 
-            return GenerateToken(user);
+            return Ok(new { token = GenerateToken(user) });
         }
     }
 }
