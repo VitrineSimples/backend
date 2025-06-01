@@ -3,7 +3,6 @@ using Guren.DTO;
 using Guren.Model;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Guren.Model;
 
 namespace Guren.Controllers
 {
@@ -26,8 +25,10 @@ namespace Guren.Controllers
                 .Select(s => new ShopDTOOutput(
                     s.Id,
                     s.Name,
+                    s.UserId,
                     s.Products.Select(p => p.Id).ToList()
-                )).ToList();
+                ))
+                .ToList();
 
             return Ok(shops);
         }
@@ -45,6 +46,7 @@ namespace Guren.Controllers
             var shopDTO = new ShopDTOOutput(
                 shop.Id,
                 shop.Name,
+                shop.UserId,
                 shop.Products.Select(p => p.Id).ToList()
             );
 
@@ -54,36 +56,64 @@ namespace Guren.Controllers
         [HttpPost]
         public ActionResult<ShopDTOOutput> CreateShop(ShopDTO shopDTO)
         {
-            bool shopExists = _dbContext.Shops
-                .Any(s => s.Name.ToLower() == shopDTO.Name.ToLower());
+            var owner = _dbContext.Users.FirstOrDefault(u => u.Id == shopDTO.UserId);
+            if (owner == null)
+            {
+                return BadRequest("User (owner) not found.");
+            }
 
-            if (shopExists)
+            if (_dbContext.Shops.Any(s => s.UserId == shopDTO.UserId))
+            {
+                return Conflict("This user already owns a shop.");
+            }
+
+            if (_dbContext.Shops.Any(s => s.Name.ToLower() == shopDTO.Name.ToLower()))
             {
                 return Conflict("A shop with the same name already exists.");
             }
 
-            var newShop = new Shop(shopDTO.Name);
+            var newShop = new Shop(shopDTO.Name, shopDTO.UserId);
 
             _dbContext.Shops.Add(newShop);
             _dbContext.SaveChanges();
 
-            var output = new ShopDTOOutput(newShop.Id, newShop.Name, new List<string>());
+            var output = new ShopDTOOutput(
+                newShop.Id,
+                newShop.Name,
+                newShop.UserId,
+                new List<string>()
+            );
+
             return CreatedAtAction(nameof(GetShop), new { name = newShop.Name }, output);
         }
 
         [HttpPut("{id}")]
         public IActionResult UpdateShop(string id, ShopDTO shopDTO)
         {
-            var existingShop = _dbContext.Shops.Find(id);
+            var existingShop = _dbContext.Shops.FirstOrDefault(s => s.Id == id);
 
             if (existingShop == null)
                 return NotFound();
+
+            bool nameExists = _dbContext.Shops
+                .Any(s => s.Id != id && s.Name.ToLower() == shopDTO.Name.ToLower());
+
+            if (nameExists)
+            {
+                return Conflict("A shop with the same name already exists.");
+            }
+
+            if (shopDTO.UserId != null && existingShop.UserId != shopDTO.UserId)
+            {
+                return BadRequest("Changing the shop owner is not allowed.");
+            }
 
             existingShop.Name = shopDTO.Name;
             _dbContext.SaveChanges();
 
             return NoContent();
         }
+
 
         [HttpDelete("{id}")]
         public IActionResult DeleteShop(string id)
@@ -99,6 +129,26 @@ namespace Guren.Controllers
             _dbContext.SaveChanges();
 
             return NoContent();
+        }
+
+        [HttpGet("user/{userId}")]
+        public ActionResult<ShopDTOOutput> GetShopByUserId(string userId)
+        {
+            var shop = _dbContext.Shops
+                .Include(s => s.Products)
+                .FirstOrDefault(s => s.UserId == userId);
+
+            if (shop == null)
+                return NotFound();
+
+            var shopDTO = new ShopDTOOutput(
+                shop.Id,
+                shop.Name,
+                shop.UserId,
+                shop.Products.Select(p => p.Id).ToList()
+            );
+
+            return Ok(shopDTO);
         }
     }
 }

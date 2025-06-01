@@ -12,11 +12,18 @@ namespace Guren.Model
 
         public string Name { get; set; }
 
+        [Required]
+        public string UserId { get; set; }
+
+        [ForeignKey("UserId")]
+        public User Owner { get; set; }
+
         public List<Product> Products { get; set; } = new List<Product>();
 
-        public Shop(string name)
+        public Shop(string name, string userId)
         {
-            this.Name = name;
+            Name = name;
+            UserId = userId;
         }
 
         private Shop() { }

@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Guren.Migrations
 {
     [DbContext(typeof(PedidosDbContext))]
-    [Migration("20250530025133_first")]
+    [Migration("20250601033045_first")]
     partial class first
     {
         /// <inheritdoc />
@@ -123,7 +123,14 @@ namespace Guren.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("varchar(255)");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("UserId")
+                        .IsUnique();
 
                     b.ToTable("Shops");
                 });
@@ -194,6 +201,17 @@ namespace Guren.Migrations
                     b.Navigation("Shop");
                 });
 
+            modelBuilder.Entity("Guren.Model.Shop", b =>
+                {
+                    b.HasOne("Guren.Model.User", "Owner")
+                        .WithOne("Shop")
+                        .HasForeignKey("Guren.Model.Shop", "UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Owner");
+                });
+
             modelBuilder.Entity("Guren.Model.Order", b =>
                 {
                     b.Navigation("Products");
@@ -207,6 +225,11 @@ namespace Guren.Migrations
             modelBuilder.Entity("Guren.Model.Shop", b =>
                 {
                     b.Navigation("Products");
+                });
+
+            modelBuilder.Entity("Guren.Model.User", b =>
+                {
+                    b.Navigation("Shop");
                 });
 #pragma warning restore 612, 618
         }

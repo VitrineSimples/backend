@@ -776,6 +776,45 @@
         }
       }
     },
+    "/api/Shops/user/{userId}": {
+      "get": {
+        "tags": [
+          "Shops"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ShopDTOOutput"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ShopDTOOutput"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ShopDTOOutput"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/Users": {
       "get": {
         "tags": [
@@ -1137,6 +1176,9 @@
         "additionalProperties": false
       },
       "Shop": {
+        "required": [
+          "userId"
+        ],
         "type": "object",
         "properties": {
           "id": {
@@ -1146,6 +1188,13 @@
           "name": {
             "type": "string",
             "nullable": true
+          },
+          "userId": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "owner": {
+            "$ref": "#/components/schemas/User"
           },
           "products": {
             "type": "array",
@@ -1163,6 +1212,10 @@
           "name": {
             "type": "string",
             "nullable": true
+          },
+          "userId": {
+            "type": "string",
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -1175,6 +1228,10 @@
             "nullable": true
           },
           "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "ownerId": {
             "type": "string",
             "nullable": true
           },
@@ -1224,6 +1281,9 @@
           "cpf": {
             "type": "string",
             "nullable": true
+          },
+          "shop": {
+            "$ref": "#/components/schemas/Shop"
           }
         },
         "additionalProperties": false

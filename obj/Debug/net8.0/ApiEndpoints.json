@@ -456,6 +456,32 @@
     ]
   },
   {
+    "ContainingType": "Guren.Controllers.ShopsController",
+    "Method": "GetShopByUserId",
+    "RelativePath": "api/Shops/user/{userId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userId",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "Guren.DTO.ShopDTOOutput",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
     "ContainingType": "Guren.Controllers.UsersController",
     "Method": "GetUsers",
     "RelativePath": "api/Users",
