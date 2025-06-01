@@ -1,4 +1,6 @@
-﻿namespace Guren.DTO
+﻿using Guren.Model;
+
+namespace Guren.DTO
 {
     public class ShopDTO
     {
@@ -19,14 +21,14 @@
         public string Id { get; set; }
         public string Name { get; set; }
         public string OwnerId { get; set; }
-        public List<string> ProductIds { get; set; } = new List<string>();
+        public List<Product> Products { get; set; } = new List<Product>();
 
-        public ShopDTOOutput(string id, string name, string ownerId, List<string> productIds)
+        public ShopDTOOutput(string id, string name, string ownerId, List<Product> products)
         {
             Id = id;
             Name = name;
             OwnerId = ownerId;
-            ProductIds = productIds;
+            Products = products;
         }
 
         public ShopDTOOutput() { }

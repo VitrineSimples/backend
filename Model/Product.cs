@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace Guren.Model
 {
@@ -21,7 +22,8 @@ namespace Guren.Model
         [ForeignKey("Shop")]
         public string ShopId { get; set; }
 
-        public Shop? Shop { get; set; }
+        [JsonIgnore]
+        public Shop Shop { get; set; }
 
         public Product(string name, decimal price, string? imageURL, Shop shop)
         {

@@ -26,7 +26,7 @@ namespace Guren.Controllers
                     s.Id,
                     s.Name,
                     s.UserId,
-                    s.Products.Select(p => p.Id).ToList()
+                    s.Products.ToList()
                 ))
                 .ToList();
 
@@ -47,7 +47,7 @@ namespace Guren.Controllers
                 shop.Id,
                 shop.Name,
                 shop.UserId,
-                shop.Products.Select(p => p.Id).ToList()
+                shop.Products.ToList()
             );
 
             return Ok(shopDTO);
@@ -81,7 +81,7 @@ namespace Guren.Controllers
                 newShop.Id,
                 newShop.Name,
                 newShop.UserId,
-                new List<string>()
+                new List<Product>()
             );
 
             return CreatedAtAction(nameof(GetShop), new { name = newShop.Name }, output);
@@ -145,7 +145,7 @@ namespace Guren.Controllers
                 shop.Id,
                 shop.Name,
                 shop.UserId,
-                shop.Products.Select(p => p.Id).ToList()
+                shop.Products.ToList()
             );
 
             return Ok(shopDTO);

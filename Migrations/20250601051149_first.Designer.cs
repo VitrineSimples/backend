@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Guren.Migrations
 {
     [DbContext(typeof(PedidosDbContext))]
-    [Migration("20250601033045_first")]
+    [Migration("20250601051149_first")]
     partial class first
     {
         /// <inheritdoc />

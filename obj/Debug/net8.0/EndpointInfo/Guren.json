@@ -1069,9 +1069,6 @@
           "shopId": {
             "minLength": 1,
             "type": "string"
-          },
-          "shop": {
-            "$ref": "#/components/schemas/Shop"
           }
         },
         "additionalProperties": false
@@ -1235,10 +1232,10 @@
             "type": "string",
             "nullable": true
           },
-          "productIds": {
+          "products": {
             "type": "array",
             "items": {
-              "type": "string"
+              "$ref": "#/components/schemas/Product"
             },
             "nullable": true
           }
