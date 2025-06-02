@@ -455,17 +455,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/SeasonalCampaignDTO"
+                "$ref": "#/components/schemas/SeasonalCampaignPostDTO"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/SeasonalCampaignDTO"
+                "$ref": "#/components/schemas/SeasonalCampaignPostDTO"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/SeasonalCampaignDTO"
+                "$ref": "#/components/schemas/SeasonalCampaignPostDTO"
               }
             }
           }
@@ -1122,9 +1122,6 @@
             "type": "string",
             "nullable": true
           },
-          "shop": {
-            "$ref": "#/components/schemas/Shop"
-          },
           "products": {
             "type": "array",
             "items": {
@@ -1142,6 +1139,39 @@
             "type": "string",
             "nullable": true
           },
+          "campaignName": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "startDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "endDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "shopId": {
+            "type": "string",
+            "nullable": true
+          },
+          "productIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "SeasonalCampaignPostDTO": {
+        "type": "object",
+        "properties": {
           "campaignName": {
             "type": "string",
             "nullable": true

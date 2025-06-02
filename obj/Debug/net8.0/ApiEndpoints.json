@@ -267,7 +267,7 @@
     "Parameters": [
       {
         "Name": "dto",
-        "Type": "Guren.DTO.SeasonalCampaignDTO",
+        "Type": "Guren.DTO.SeasonalCampaignPostDTO",
         "IsRequired": true
       }
     ],

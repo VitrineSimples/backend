@@ -19,4 +19,20 @@ namespace Guren.DTO
 
         public List<string> ProductIds { get; set; } = new List<string>();
     }
+
+    public class SeasonalCampaignPostDTO
+    {
+
+        public string CampaignName { get; set; }
+
+        public string Description { get; set; }
+
+        public DateTime StartDate { get; set; }
+
+        public DateTime EndDate { get; set; }
+
+        public string ShopId { get; set; }
+
+        public List<string> ProductIds { get; set; } = new List<string>();
+    }
 }

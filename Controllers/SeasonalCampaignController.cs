@@ -23,7 +23,6 @@ namespace Guren.Controllers
         {
             return await _context.SeasonalCampaigns
                 .Include(c => c.Products)
-                .Include(c => c.Shop)
                 .ToListAsync();
         }
 
@@ -42,7 +41,7 @@ namespace Guren.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<SeasonalCampaign>> CreateCampaign(SeasonalCampaignDTO dto)
+        public async Task<ActionResult<SeasonalCampaign>> CreateCampaign(SeasonalCampaignPostDTO dto)
         {
             var shop = await _context.Shops
                 .Include(s => s.Products)

@@ -1,6 +1,7 @@
 ﻿using Guren.Model;
 using System;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace Guren.Model
 {
@@ -17,6 +18,7 @@ namespace Guren.Model
         public DateTime EndDate { get; set; }
 
         public string ShopId { get; set; }
+        [JsonIgnore]
         public Shop Shop { get; set; }
 
         public List<Product> Products { get; set; } = new List<Product>();
