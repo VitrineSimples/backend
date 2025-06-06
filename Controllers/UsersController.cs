@@ -50,19 +50,17 @@ namespace Guren.Controllers
         {
             if (dbContext.Users.Any(user => user.CPF.Equals(newUserDTO.CPF)))
             {
-                return BadRequest("A user with this CPF already exists");
+                return Conflict("A user with this CPF already exists");
+            }
+
+            if (dbContext.Users.Any(user => user.Email.Equals(newUserDTO.Email)))
+            {
+                return Conflict("A user with this Email already exists");
             }
 
             User newUser = new User(newUserDTO.Name, newUserDTO.Email, newUserDTO.Password, newUserDTO.CPF);
 
             dbContext.Users.Add(newUser);
-
-            Console.WriteLine("-------------------------------------------------------------------");
-            Console.WriteLine(newUser.Name);
-            Console.WriteLine(newUser.Email);
-            Console.WriteLine(newUser.Password);
-            Console.WriteLine(newUser.CPF);
-            Console.WriteLine("-------------------------------------------------------------------");
 
             dbContext.SaveChanges();
 

@@ -9,7 +9,7 @@
     "Parameters": [],
     "ReturnTypes": [
       {
-        "Type": "Guren.Model.User",
+        "Type": "Guren.DTO.MeDTO",
         "MediaTypes": [
           "text/plain",
           "application/json",

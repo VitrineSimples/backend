@@ -12,6 +12,7 @@ namespace Guren.Model
         public string Id { get; set; }
 
         public User User { get; set; }
+        public string UserId { get; set; }
         public List<Product> Products { get; set; } = new List<Product>();
         public DateTime Date { get; set; }
 

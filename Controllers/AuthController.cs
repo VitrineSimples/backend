@@ -4,6 +4,7 @@ using Guren.Model;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -44,26 +45,38 @@ namespace Guren.Controllers
         }
 
         [HttpGet("me")]
-        public ActionResult<User> Me()
+        public ActionResult<MeDTO> Me()
         {
             Claim? userId = User.Claims.FirstOrDefault(c => c.Type == "id");
             if (userId is null)
             {
-                throw new UnauthorizedAccessException();
+                return Unauthorized();
             }
 
-            User? user = dbContext.Users.Find(userId.Value);
+            string id = userId.Value;
+
+            var user = dbContext.Users.FirstOrDefault(u => u.Id == id);
             if (user is null)
             {
-                throw new UnauthorizedAccessException();
+                return Unauthorized();
             }
+
+            var shop = dbContext.Shops
+                .Include(s => s.Products)
+                .FirstOrDefault(s => s.UserId == id);
 
             var userDto = new MeDTO
             {
                 Id = user.Id,
                 Name = user.Name,
                 Email = user.Email,
-                CPF = user.CPF
+                CPF = user.CPF,
+                Shop = shop is null ? null : new ShopDTOOutput(
+                    shop.Id,
+                    shop.Name,
+                    shop.UserId,
+                    shop.Products.ToList()
+                )
             };
 
             return Ok(userDto);
