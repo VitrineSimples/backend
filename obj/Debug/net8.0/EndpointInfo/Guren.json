@@ -1231,6 +1231,10 @@
             "type": "number",
             "format": "double"
           },
+          "productImage": {
+            "type": "string",
+            "nullable": true
+          },
           "quantity": {
             "type": "integer",
             "format": "int32"

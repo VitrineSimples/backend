@@ -40,6 +40,7 @@ namespace Guren.Controllers
                     ProductId = i.ProductId,
                     ProductName = i.Product.Name,
                     ProductPrice = i.Product.Price,
+                    ProductImage = i.Product.ImageURL,
                     Quantity = i.Quantity
                 }).ToList()
             };
