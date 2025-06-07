@@ -13,7 +13,8 @@ namespace Guren.Model
         public string Password { get; set; }
         public string CPF { get; set; }
         public Shop? Shop { get; set; }
-        public ICollection<Order> Orders { get; set; } = new List<Order>();
+        public Cart? Cart { get; set; }
+        public ICollection<Order>? Orders { get; set; } = new List<Order>();
 
         public User(string name, string email, string password, string cpf)
         {

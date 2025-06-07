@@ -67,46 +67,6 @@ namespace Guren.Controllers
             return CreatedAtAction(nameof(GetProduct), new { id = newProduct.Id }, newProduct);
         }
 
-        [HttpPost("{id}/Upload")]
-        public async Task<ActionResult<Product>> UploadImage(string id, IFormFile file)
-        {
-            if (file == null || file.Length == 0)
-            {
-                return BadRequest("No image found");
-            }
-
-            Product? product = dbContext
-                .Products
-                .FirstOrDefault(p => p.Id == id);
-
-            if (product is null)
-            {
-                return NotFound();
-            }
-
-            string fileExtension = file.FileName.Substring(file.FileName.LastIndexOf(".") + 1);
-
-            string folderName = "products";
-            string uploadsFolderPath = Path.Combine("wwwroot", folderName);
-            Directory.CreateDirectory(uploadsFolderPath);
-
-            string fileName = $"{id}.{fileExtension}";
-            string filePath = Path.Combine(uploadsFolderPath, fileName);
-
-            using (var stream = new FileStream(filePath, FileMode.Create))
-            {
-                await file.CopyToAsync(stream);
-            }
-
-            string serverUrl = $"{Request.Scheme}://{Request.Host}";
-            string imageURL = $"{serverUrl}/{folderName}/{fileName}";
-
-            product.ImageURL = imageURL;
-            dbContext.SaveChanges();
-
-            return CreatedAtAction(nameof(UploadImage), product);
-        }
-
         [HttpPut("{id}")]
         public IActionResult UpdateProduct(string id, ProductDTO productDTO)
         {
