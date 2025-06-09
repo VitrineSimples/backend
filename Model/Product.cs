@@ -12,6 +12,7 @@ namespace Guren.Model
 
         [Required]
         public string Name { get; set; }
+        public string Description { get; set; }
 
         [Required]
         public decimal Price { get; set; }
@@ -25,9 +26,10 @@ namespace Guren.Model
         [JsonIgnore]
         public Shop Shop { get; set; }
 
-        public Product(string name, decimal price, string? imageURL, Shop shop)
+        public Product(string name, string description, decimal price, string? imageURL, Shop shop)
         {
             Name = name;
+            Description = description;
             Price = price;
             ImageURL = imageURL;
             Shop = shop;

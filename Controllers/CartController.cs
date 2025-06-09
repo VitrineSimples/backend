@@ -23,6 +23,7 @@ namespace Guren.Controllers
             var cart = await _context.Carts
                 .Include(c => c.Items)
                 .ThenInclude(i => i.Product)
+                .ThenInclude(p => p.Shop)
                 .FirstOrDefaultAsync(c => c.UserId == userId);
 
             if (cart == null)
@@ -41,6 +42,8 @@ namespace Guren.Controllers
                     ProductName = i.Product.Name,
                     ProductPrice = i.Product.Price,
                     ProductImage = i.Product.ImageURL,
+                    ShopId = i.Product.ShopId,
+                    ShopWhatsApp = i.Product.Shop.WhatsApp,
                     Quantity = i.Quantity
                 }).ToList()
             };

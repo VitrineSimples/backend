@@ -106,10 +106,10 @@ namespace Guren.Controllers
             dbContext.Carts.Remove(cart);
 
             await dbContext.SaveChangesAsync();
-            return Ok(order);
             return CreatedAtAction(nameof(GetOrderById), new { id = order.Id }, order);
         }
 
+        [AllowAnonymous]
         [HttpGet("{id}")]
         public ActionResult<Order> GetOrderById(string id)
         {

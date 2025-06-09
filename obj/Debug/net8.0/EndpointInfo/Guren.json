@@ -5,35 +5,6 @@
     "version": "v1.2"
   },
   "paths": {
-    "/api/Auth/me": {
-      "get": {
-        "tags": [
-          "Auth"
-        ],
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/MeDTO"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/MeDTO"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/MeDTO"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/api/Auth/signIn": {
       "post": {
         "tags": [
@@ -60,21 +31,33 @@
         },
         "responses": {
           "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Auth/me": {
+      "get": {
+        "tags": [
+          "Auth"
+        ],
+        "responses": {
+          "200": {
             "description": "Success",
             "content": {
               "text/plain": {
                 "schema": {
-                  "type": "string"
+                  "$ref": "#/components/schemas/MeDTO"
                 }
               },
               "application/json": {
                 "schema": {
-                  "type": "string"
+                  "$ref": "#/components/schemas/MeDTO"
                 }
               },
               "text/json": {
                 "schema": {
-                  "type": "string"
+                  "$ref": "#/components/schemas/MeDTO"
                 }
               }
             }
@@ -359,7 +342,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/Product"
+                    "$ref": "#/components/schemas/ProductDTO"
                   }
                 }
               },
@@ -367,7 +350,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/Product"
+                    "$ref": "#/components/schemas/ProductDTO"
                   }
                 }
               },
@@ -375,7 +358,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/Product"
+                    "$ref": "#/components/schemas/ProductDTO"
                   }
                 }
               }
@@ -391,17 +374,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/ProductDTO"
+                "$ref": "#/components/schemas/ProductCreateDTO"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/ProductDTO"
+                "$ref": "#/components/schemas/ProductCreateDTO"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/ProductDTO"
+                "$ref": "#/components/schemas/ProductCreateDTO"
               }
             }
           }
@@ -412,17 +395,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/Product"
+                  "$ref": "#/components/schemas/ProductDTO"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Product"
+                  "$ref": "#/components/schemas/ProductDTO"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Product"
+                  "$ref": "#/components/schemas/ProductDTO"
                 }
               }
             }
@@ -451,17 +434,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/Product"
+                  "$ref": "#/components/schemas/ProductDTO"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Product"
+                  "$ref": "#/components/schemas/ProductDTO"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Product"
+                  "$ref": "#/components/schemas/ProductDTO"
                 }
               }
             }
@@ -486,17 +469,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/ProductDTO"
+                "$ref": "#/components/schemas/ProductCreateDTO"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/ProductDTO"
+                "$ref": "#/components/schemas/ProductCreateDTO"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/ProductDTO"
+                "$ref": "#/components/schemas/ProductCreateDTO"
               }
             }
           }
@@ -706,6 +689,54 @@
         "responses": {
           "200": {
             "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/SeasonalCampaign/shop/{shopId}": {
+      "get": {
+        "tags": [
+          "SeasonalCampaign"
+        ],
+        "parameters": [
+          {
+            "name": "shopId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/SeasonalCampaign"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/SeasonalCampaign"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/SeasonalCampaign"
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -1235,6 +1266,14 @@
             "type": "string",
             "nullable": true
           },
+          "shopId": {
+            "type": "string",
+            "nullable": true
+          },
+          "shopWhatsApp": {
+            "type": "string",
+            "nullable": true
+          },
           "quantity": {
             "type": "integer",
             "format": "int32"
@@ -1258,6 +1297,10 @@
             "nullable": true
           },
           "cpf": {
+            "type": "string",
+            "nullable": true
+          },
+          "imageURL": {
             "type": "string",
             "nullable": true
           },
@@ -1362,6 +1405,10 @@
             "minLength": 1,
             "type": "string"
           },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
           "price": {
             "type": "number",
             "format": "double"
@@ -1377,10 +1424,14 @@
         },
         "additionalProperties": false
       },
-      "ProductDTO": {
+      "ProductCreateDTO": {
         "type": "object",
         "properties": {
           "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
             "type": "string",
             "nullable": true
           },
@@ -1393,6 +1444,36 @@
             "nullable": true
           },
           "shopId": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ProductDTO": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "price": {
+            "type": "number",
+            "format": "double"
+          },
+          "imageURL": {
+            "type": "string",
+            "nullable": true
+          },
+          "shopId": {
+            "type": "string",
+            "nullable": true
+          },
+          "shopWhatsApp": {
             "type": "string",
             "nullable": true
           }
@@ -1520,6 +1601,14 @@
             "type": "string",
             "nullable": true
           },
+          "email": {
+            "type": "string",
+            "nullable": true
+          },
+          "whatsApp": {
+            "type": "string",
+            "nullable": true
+          },
           "userId": {
             "minLength": 1,
             "type": "string"
@@ -1533,6 +1622,13 @@
               "$ref": "#/components/schemas/Product"
             },
             "nullable": true
+          },
+          "seasonalCampaigns": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SeasonalCampaign"
+            },
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -1541,6 +1637,14 @@
         "type": "object",
         "properties": {
           "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "email": {
+            "type": "string",
+            "nullable": true
+          },
+          "whatsApp": {
             "type": "string",
             "nullable": true
           },
@@ -1562,6 +1666,14 @@
             "type": "string",
             "nullable": true
           },
+          "email": {
+            "type": "string",
+            "nullable": true
+          },
+          "whatsApp": {
+            "type": "string",
+            "nullable": true
+          },
           "ownerId": {
             "type": "string",
             "nullable": true
@@ -1570,6 +1682,13 @@
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/Product"
+            },
+            "nullable": true
+          },
+          "seasonalCampaigns": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SeasonalCampaignDTO"
             },
             "nullable": true
           }
@@ -1613,6 +1732,10 @@
             "type": "string",
             "nullable": true
           },
+          "imageUrl": {
+            "type": "string",
+            "nullable": true
+          },
           "shop": {
             "$ref": "#/components/schemas/Shop"
           },
@@ -1647,6 +1770,10 @@
           "cpf": {
             "type": "string",
             "nullable": true
+          },
+          "imageUrl": {
+            "type": "string",
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -1667,6 +1794,10 @@
             "nullable": true
           },
           "cpf": {
+            "type": "string",
+            "nullable": true
+          },
+          "imageUrl": {
             "type": "string",
             "nullable": true
           }

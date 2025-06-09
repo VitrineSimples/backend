@@ -33,17 +33,7 @@
         "IsRequired": true
       }
     ],
-    "ReturnTypes": [
-      {
-        "Type": "System.String",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
+    "ReturnTypes": []
   },
   {
     "ContainingType": "Guren.Controllers.CartController",
@@ -215,7 +205,7 @@
     "Parameters": [],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.IEnumerable\u00601[[Guren.Model.Product, Guren, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[Guren.DTO.ProductDTO, Guren, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -235,13 +225,13 @@
     "Parameters": [
       {
         "Name": "newProductDTO",
-        "Type": "Guren.DTO.ProductDTO",
+        "Type": "Guren.DTO.ProductCreateDTO",
         "IsRequired": true
       }
     ],
     "ReturnTypes": [
       {
-        "Type": "Guren.Model.Product",
+        "Type": "Guren.DTO.ProductDTO",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -267,7 +257,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "Guren.Model.Product",
+        "Type": "Guren.DTO.ProductDTO",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -292,7 +282,7 @@
       },
       {
         "Name": "productDTO",
-        "Type": "Guren.DTO.ProductDTO",
+        "Type": "Guren.DTO.ProductCreateDTO",
         "IsRequired": true
       }
     ],
@@ -422,6 +412,32 @@
       }
     ],
     "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Guren.Controllers.SeasonalCampaignController",
+    "Method": "GetCampaignsByShop",
+    "RelativePath": "api/SeasonalCampaign/shop/{shopId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "shopId",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[Guren.Model.SeasonalCampaign, Guren, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
   },
   {
     "ContainingType": "Guren.Controllers.ShopsController",

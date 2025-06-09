@@ -19,11 +19,9 @@ namespace Guren.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<UserDTOOutput>> GetUsers()
         {
-            IEnumerable<UserDTOOutput> users = dbContext
-                .Users
-                .Select(
-                    u => new UserDTOOutput(u.Id, u.Name, u.Email, u.CPF)
-                );
+            var users = dbContext.Users.Select(u =>
+                new UserDTOOutput(u.Id, u.Name, u.Email, u.CPF, u.ImageUrl)
+            );
 
             return Ok(users);
         }
@@ -31,37 +29,39 @@ namespace Guren.Controllers
         [HttpGet("{id}")]
         public ActionResult<UserDTOOutput> GetUser(string id)
         {
-            User? user = dbContext
-                .Users
-                .FirstOrDefault(u => u.Id == id);
+            User? user = dbContext.Users.FirstOrDefault(u => u.Id == id);
 
             if (user is null)
             {
                 return NotFound();
             }
 
-            UserDTOOutput userDTO = new UserDTOOutput(user.Id, user.Name, user.Email, user.CPF);
-
+            var userDTO = new UserDTOOutput(user.Id, user.Name, user.Email, user.CPF, user.ImageUrl);
             return Ok(userDTO);
         }
 
         [HttpPost]
         public ActionResult<User> CreateUser(UserDTOInput newUserDTO)
         {
-            if (dbContext.Users.Any(user => user.CPF.Equals(newUserDTO.CPF)))
+            if (dbContext.Users.Any(user => user.CPF == newUserDTO.CPF))
             {
                 return Conflict("A user with this CPF already exists");
             }
 
-            if (dbContext.Users.Any(user => user.Email.Equals(newUserDTO.Email)))
+            if (dbContext.Users.Any(user => user.Email == newUserDTO.Email))
             {
                 return Conflict("A user with this Email already exists");
             }
 
-            User newUser = new User(newUserDTO.Name, newUserDTO.Email, newUserDTO.Password, newUserDTO.CPF);
+            var newUser = new User(
+                newUserDTO.Name,
+                newUserDTO.Email,
+                newUserDTO.Password,
+                newUserDTO.CPF,
+                newUserDTO.ImageUrl
+            );
 
             dbContext.Users.Add(newUser);
-
             dbContext.SaveChanges();
 
             return CreatedAtAction(nameof(CreateUser), newUser);
@@ -70,14 +70,14 @@ namespace Guren.Controllers
         [HttpPut("{id}")]
         public IActionResult UpdateUser(string id, UserDTOInput userToUpdateDTO)
         {
-            User? existingUser = dbContext.Users.FirstOrDefault(u => u.Id == id);
+            var existingUser = dbContext.Users.FirstOrDefault(u => u.Id == id);
 
             if (existingUser == null)
             {
                 return NotFound();
             }
 
-            if (dbContext.Users.Any(user => user.Id != id && user.CPF.Equals(userToUpdateDTO.CPF)))
+            if (dbContext.Users.Any(user => user.Id != id && user.CPF == userToUpdateDTO.CPF))
             {
                 return BadRequest("A user with this CPF already exists");
             }
@@ -86,6 +86,7 @@ namespace Guren.Controllers
             existingUser.Email = userToUpdateDTO.Email;
             existingUser.Password = userToUpdateDTO.Password;
             existingUser.CPF = userToUpdateDTO.CPF;
+            existingUser.ImageUrl = userToUpdateDTO.ImageUrl;
 
             dbContext.SaveChanges();
 
@@ -95,7 +96,7 @@ namespace Guren.Controllers
         [HttpDelete("{id}")]
         public IActionResult DeleteUser(string id)
         {
-            User? user = dbContext.Users.FirstOrDefault(u => u.Id == id);
+            var user = dbContext.Users.FirstOrDefault(u => u.Id == id);
 
             if (user == null)
             {

@@ -116,5 +116,20 @@ namespace Guren.Controllers
 
             return NoContent();
         }
+
+        [HttpGet("shop/{shopId}")]
+        public async Task<ActionResult<IEnumerable<SeasonalCampaign>>> GetCampaignsByShop(string shopId)
+        {
+            var shopExists = await _context.Shops.AnyAsync(s => s.Id == shopId);
+            if (!shopExists)
+                return NotFound("Shop not found.");
+
+            var campaigns = await _context.SeasonalCampaigns
+                .Where(c => c.ShopId == shopId)
+                .Include(c => c.Products)
+                .ToListAsync();
+
+            return Ok(campaigns);
+        }
     }
 }

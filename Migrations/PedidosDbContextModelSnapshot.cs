@@ -97,6 +97,10 @@ namespace Guren.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("varchar(255)");
 
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
                     b.Property<string>("ImageURL")
                         .HasColumnType("longtext");
 
@@ -159,6 +163,10 @@ namespace Guren.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("varchar(255)");
 
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("longtext");
@@ -166,6 +174,10 @@ namespace Guren.Migrations
                     b.Property<string>("UserId")
                         .IsRequired()
                         .HasColumnType("varchar(255)");
+
+                    b.Property<string>("WhatsApp")
+                        .IsRequired()
+                        .HasColumnType("longtext");
 
                     b.HasKey("Id");
 
@@ -187,6 +199,9 @@ namespace Guren.Migrations
 
                     b.Property<string>("Email")
                         .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("ImageUrl")
                         .HasColumnType("longtext");
 
                     b.Property<string>("Name")
@@ -289,7 +304,7 @@ namespace Guren.Migrations
             modelBuilder.Entity("Guren.Model.SeasonalCampaign", b =>
                 {
                     b.HasOne("Guren.Model.Shop", "Shop")
-                        .WithMany()
+                        .WithMany("SeasonalCampaigns")
                         .HasForeignKey("ShopId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -332,6 +347,8 @@ namespace Guren.Migrations
             modelBuilder.Entity("Guren.Model.Shop", b =>
                 {
                     b.Navigation("Products");
+
+                    b.Navigation("SeasonalCampaigns");
                 });
 
             modelBuilder.Entity("Guren.Model.User", b =>

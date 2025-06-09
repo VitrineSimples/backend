@@ -1,14 +1,10 @@
 ﻿using Guren.Database;
 using Guren.DTO;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 using Guren.Model;
-using System.IO;
-using System.Threading.Tasks;
-using System.Linq;
-using System.Collections.Generic;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Guren.Controllers
 {
@@ -24,38 +20,61 @@ namespace Guren.Controllers
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<Product>> GetProducts()
+        public ActionResult<IEnumerable<ProductDTO>> GetProducts()
         {
-            return Ok(dbContext.Products);
+            var products = dbContext.Products
+                .Include(p => p.Shop)
+                .Select(p => new ProductDTO
+                {
+                    Name = p.Name,
+                    Description = p.Description,
+                    Price = p.Price,
+                    ImageURL = p.ImageURL,
+                    ShopId = p.ShopId,
+                    ShopWhatsApp = p.Shop.WhatsApp
+                })
+                .ToList();
+
+            return Ok(products);
         }
 
         [HttpGet("{id}")]
-        public ActionResult<Product> GetProduct(string id)
+        public ActionResult<ProductDTO> GetProduct(string id)
         {
-            Product? product = dbContext
-                .Products
+            var product = dbContext.Products
                 .Include(p => p.Shop)
                 .FirstOrDefault(p => p.Id == id);
 
-            if (product is null)
+            if (product == null)
             {
                 return NotFound();
             }
 
-            return Ok(product);
+            var productDTO = new ProductDTO
+            {
+                Name = product.Name,
+                Description = product.Description,
+                Price = product.Price,
+                ImageURL = product.ImageURL,
+                ShopId = product.ShopId,
+                ShopWhatsApp = product.Shop.WhatsApp
+            };
+
+            return Ok(productDTO);
         }
 
         [HttpPost]
-        public ActionResult<Product> CreateProduct(ProductDTO newProductDTO)
+        public ActionResult<ProductDTO> CreateProduct(ProductCreateDTO newProductDTO)
         {
-            Shop? shop = dbContext.Shops.FirstOrDefault(s => s.Id == newProductDTO.ShopId);
+            var shop = dbContext.Shops.FirstOrDefault(s => s.Id == newProductDTO.ShopId);
             if (shop == null)
             {
                 return BadRequest("Shop not found.");
             }
 
-            Product newProduct = new Product(
+            var newProduct = new Product(
                 newProductDTO.Name,
+                newProductDTO.Description,
                 newProductDTO.Price,
                 newProductDTO.ImageURL,
                 shop
@@ -64,25 +83,36 @@ namespace Guren.Controllers
             dbContext.Products.Add(newProduct);
             dbContext.SaveChanges();
 
-            return CreatedAtAction(nameof(GetProduct), new { id = newProduct.Id }, newProduct);
+            var productDTO = new ProductDTO
+            {
+                Name = newProduct.Name,
+                Description = newProduct.Description,
+                Price = newProduct.Price,
+                ImageURL = newProduct.ImageURL,
+                ShopId = newProduct.ShopId,
+                ShopWhatsApp = shop.WhatsApp
+            };
+
+            return CreatedAtAction(nameof(GetProduct), new { id = newProduct.Id }, productDTO);
         }
 
         [HttpPut("{id}")]
-        public IActionResult UpdateProduct(string id, ProductDTO productDTO)
+        public IActionResult UpdateProduct(string id, ProductCreateDTO productDTO)
         {
-            Product? foundProduct = dbContext.Products.FirstOrDefault(p => p.Id == id);
+            var foundProduct = dbContext.Products.FirstOrDefault(p => p.Id == id);
             if (foundProduct == null)
             {
                 return NotFound();
             }
 
-            Shop? shop = dbContext.Shops.FirstOrDefault(s => s.Id == productDTO.ShopId);
+            var shop = dbContext.Shops.FirstOrDefault(s => s.Id == productDTO.ShopId);
             if (shop == null)
             {
                 return BadRequest("Shop not found.");
             }
 
             foundProduct.Name = productDTO.Name;
+            foundProduct.Description = productDTO.Description;
             foundProduct.Price = productDTO.Price;
             foundProduct.ImageURL = productDTO.ImageURL;
             foundProduct.Shop = shop;
@@ -96,7 +126,7 @@ namespace Guren.Controllers
         [HttpDelete("{id}")]
         public IActionResult DeleteProduct(string id)
         {
-            Product? foundProduct = dbContext.Products.FirstOrDefault(p => p.Id == id);
+            var foundProduct = dbContext.Products.FirstOrDefault(p => p.Id == id);
             if (foundProduct == null)
             {
                 return NotFound();

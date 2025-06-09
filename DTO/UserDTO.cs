@@ -6,6 +6,7 @@
         public string Email { get; set; }
         public string Password { get; set; }
         public string CPF { get; set; }
+        public string? ImageUrl { get; set; }
     }
 
     public class UserDTOOutput
@@ -14,13 +15,15 @@
         public string Name { get; set; }
         public string Email { get; set; }
         public string CPF { get; set; }
+        public string? ImageUrl { get; set; }
 
-        public UserDTOOutput(string id, string name, string email, string cpf)
+        public UserDTOOutput(string id, string name, string email, string cpf, string? imageUrl)
         {
             this.Id = id;
             this.Name = name;
             this.Email = email;
             this.CPF = cpf;
+            this.ImageUrl = imageUrl;
         }
     }
 }

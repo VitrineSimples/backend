@@ -8,20 +8,25 @@ namespace Guren.Model
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]
         public string Id { get; set; }
+
         public string Name { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }
         public string CPF { get; set; }
+
+        public string? ImageUrl { get; set; } // Campo adicionado
+
         public Shop? Shop { get; set; }
         public Cart? Cart { get; set; }
         public ICollection<Order>? Orders { get; set; } = new List<Order>();
 
-        public User(string name, string email, string password, string cpf)
+        public User(string name, string email, string password, string cpf, string? imageUrl = null)
         {
             this.Name = name;
             this.Email = email;
             this.Password = password;
             this.CPF = cpf;
+            this.ImageUrl = imageUrl;
         }
 
         private User() { }
